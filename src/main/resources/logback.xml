@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--https://www.cnblogs.com/ryelqy/p/10314147.html-->
+<configuration debug="false">
+		<!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+		<property name="LOG_HOME" value="C:\\Users\\Administrator\\Desktop\\Study\\IdeaWorkSpace\\myLog\\src\\main\\resources" />
+		<!-- 控制台输出 -->
+		<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!--对记录事件进行格式化。负责两件事，一是把日志信息转换成字节数组，二是把字节数组写入到输出流-->
+		<!--PatternLayoutEncoder 是唯一有用的且默认的encoder ，有一个<pattern>节点，用来设置日志的输入格式。使用“%”加“转换符”方式，如果要输出“%”，则必须用“\”对“\%”进行转义-->
+			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+			</encoder>
+		</appender>
+		<!-- 按照每天生成日志文件 -->
+		<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<!--如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true-->
+			<!-- 最常用的滚动策略，它根据时间来制定滚动策略，既负责滚动也负责出发滚动。有以下子节点：-->
+			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+				<!--日志文件输出的文件名-->
+				<FileNamePattern>${LOG_HOME}/TestWeb.log.%d{yyyy-MM-dd}.log</FileNamePattern>
+				<!--日志文件保留天数-->
+				<MaxHistory>30</MaxHistory>
+			</rollingPolicy>
+			<!--对记录事件进行格式化。负责两件事，一是把日志信息转换成字节数组，二是把字节数组写入到输出流-->
+			<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+				<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+			</encoder>
+			<!--日志文件最大的大小-->
+			<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+				<MaxFileSize>10MB</MaxFileSize>
+			</triggeringPolicy>
+		</appender>
+		
+		<!-- 日志输出级别 -->
+		<!--level: 用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL和OFF，不能设置为INHERITED或者同义词NULL。 默认是DEBUG-->
+		<root level="ERROR">
+			<appender-ref ref="FILE" />
+		</root>
+		
+		
+		<!--
+		　	<appender name="FILE" class="ch.qos.logback.core.FileAppender"> 
+　　　　　　　　<file>testFile.log</file> //被写入的文件名，可以是相对目录，也可以是绝对目录，如果上级目录不存在会自动创建，没有默认值
+　　　　　　　　<append>true</append> //如果是 true，日志被追加到文件结尾，如果是 false，清空现存文件，默认是true
+　　　　　　　　<encoder> 
+　　　　　　　　　　<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern> 
+　　　　　　　　</encoder> 
+　　　　　　</appender> 
+
+　　　　　　<root level="DEBUG"> 
+　　　　　　	<appender-ref ref="FILE" /> 
+　　　　　　</root> 
+		-->
+		
+</configuration>
